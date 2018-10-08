@@ -6,7 +6,7 @@
 </head>
 <body>
   <div id="app">
-    <h1 v-switching-color="['purple', 'gold', 'pink', 'blue']">Vue School</h1>
+    <h1 v-switching-color="colors">Vue School</h1>
   </div>
 
   <script type="text/javascript">
@@ -23,7 +23,9 @@
 
     new Vue({
       el: "#app",
-      data: {}
+      data: {
+        colors: ['purple', 'gold', 'pink', 'blue']
+      }
     })
   </script>
 </body>
