@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Custom Directives</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+  <div id="app">
+    <h1 v-purple>Vue School</h1>
+  </div>
+
+  <script type="text/javascript">
+    Vue.directive('purple', function (el) {
+      el.style.color = 'purple'
+    })
+
+    new Vue({
+      el: "#app",
+      data: {}
+    })
+  </script>
+</body>
+</html>
