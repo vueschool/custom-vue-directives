@@ -6,11 +6,28 @@
 </head>
 <body>
   <div id="app">
-    <h1 v-switching-color="colors">Vue School</h1>
+    <h1 v-switching-color:fast.underline.textcenter="colors">Vue School</h1>
   </div>
 
   <script type="text/javascript">
     Vue.directive('switching-color', function (el, binding) {
+      const modifiers = binding.modifiers
+      if (modifiers.underline) {
+        el.style.textDecoration = 'underline'
+      }
+      if (modifiers.textcenter) {
+        el.style.textAlign = 'center'
+      }
+      
+      const speeds = {
+        slow: 2000,
+        normal: 1000,
+        fast: 500,
+        crazy: 100
+      }
+      const speedName = binding.arg || 'normal'
+      const speed = speeds[speedName]
+      
       const colors = binding.value
       let i = 0
       setInterval(() => {
@@ -18,7 +35,7 @@
         if (i > colors.length - 1) {
           i = 0
         }
-      }, 500)
+      }, speed)
     })
 
     new Vue({
