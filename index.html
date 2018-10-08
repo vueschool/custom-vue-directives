@@ -6,12 +6,19 @@
 </head>
 <body>
   <div id="app">
-    <h1 v-purple>Vue School</h1>
+    <h1 v-switching-color="['purple', 'gold', 'pink', 'blue']">Vue School</h1>
   </div>
 
   <script type="text/javascript">
-    Vue.directive('purple', function (el) {
-      el.style.color = 'purple'
+    Vue.directive('switching-color', function (el, binding) {
+      const colors = binding.value
+      let i = 0
+      setInterval(() => {
+        el.style.color = colors[i++]
+        if (i > colors.length - 1) {
+          i = 0
+        }
+      }, 500)
     })
 
     new Vue({
