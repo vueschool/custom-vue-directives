@@ -6,58 +6,43 @@
 </head>
 <body>
   <div id="app">
-    <h1 
-      v-switching-color:fast.textcenter="colors"
-      v-if="show"
-    >
-      Vue School
-    </h1>
-    
-    <button @click="show = !show">toggle</button>
+    <h2>Click Outside</h2>
+    <div v-click-outside="clickedOutside" class="box">
+      Here is some text
+    </div>
   </div>
 
   <script type="text/javascript">
-    Vue.directive('switching-color', {
+    Vue.directive('click-outside', {
       bind (el, binding) {
-        const modifiers = binding.modifiers
-        if (modifiers.underline) {
-          el.style.textDecoration = 'underline'
-        }
-        if (modifiers.textcenter) {
-          el.style.textAlign = 'center'
-        }
-        
-        const speeds = {
-          slow: 2000,
-          normal: 1000,
-          fast: 500,
-          crazy: 100
-        }
-        const speedName = binding.arg || 'normal'
-        const speed = speeds[speedName]
-        
-        const colors = binding.value
-        let i = 0
-        el.__SwitchingColorInterval__ = setInterval(() => {
-          console.log('🎨 coloring')
-          el.style.color = colors[i++]
-          if (i > colors.length - 1) {
-            i = 0
+        el.__ClickOutsideHandler__ = event => {
+          if (!(el === event.target || el.contains(event.target))) {
+            binding.value(event)
           }
-        }, speed)
+        }
+        document.body.addEventListener('click', el.__ClickOutsideHandler__)
       },
       unbind (el) {
-        clearInterval(el.__SwitchingColorInterval__)
+        document.body.removeEventListener('click', el.__ClickOutsideHandler__)
       }
     })
 
     new Vue({
       el: "#app",
-      data: {
-        colors: ['purple', 'gold', 'pink', 'blue'],
-        show: true
+      data: {},
+      methods: {
+        clickedOutside () {
+          alert('you clicked outside 👏')
+        }
       }
     })
   </script>
+  <style type="text/css">
+    .box {
+      border: 2px solid purple;
+      width: 200px;
+      height: 100px;
+    }
+  </style>
 </body>
 </html>
