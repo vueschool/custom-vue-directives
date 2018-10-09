@@ -6,44 +6,56 @@
 </head>
 <body>
   <div id="app">
-    <h1 v-switching-color:fast.underline.textcenter="colors">Vue School</h1>
+    <h1 
+      v-switching-color:fast.textcenter="colors"
+      v-if="show"
+    >
+      Vue School
+    </h1>
+    
+    <button @click="show = !show">toggle</button>
   </div>
 
   <script type="text/javascript">
     Vue.directive('switching-color', {
       bind (el, binding) {
-      const modifiers = binding.modifiers
-      if (modifiers.underline) {
-        el.style.textDecoration = 'underline'
-      }
-      if (modifiers.textcenter) {
-        el.style.textAlign = 'center'
-      }
-      
-      const speeds = {
-        slow: 2000,
-        normal: 1000,
-        fast: 500,
-        crazy: 100
-      }
-      const speedName = binding.arg || 'normal'
-      const speed = speeds[speedName]
-      
-      const colors = binding.value
-      let i = 0
-      setInterval(() => {
-        el.style.color = colors[i++]
-        if (i > colors.length - 1) {
-          i = 0
+        const modifiers = binding.modifiers
+        if (modifiers.underline) {
+          el.style.textDecoration = 'underline'
         }
-      }, speed)
-    }
+        if (modifiers.textcenter) {
+          el.style.textAlign = 'center'
+        }
+        
+        const speeds = {
+          slow: 2000,
+          normal: 1000,
+          fast: 500,
+          crazy: 100
+        }
+        const speedName = binding.arg || 'normal'
+        const speed = speeds[speedName]
+        
+        const colors = binding.value
+        let i = 0
+        el.__SwitchingColorInterval__ = setInterval(() => {
+          console.log('🎨 coloring')
+          el.style.color = colors[i++]
+          if (i > colors.length - 1) {
+            i = 0
+          }
+        }, speed)
+      },
+      unbind (el) {
+        clearInterval(el.__SwitchingColorInterval__)
+      }
     })
 
     new Vue({
       el: "#app",
       data: {
-        colors: ['purple', 'gold', 'pink', 'blue']
+        colors: ['purple', 'gold', 'pink', 'blue'],
+        show: true
       }
     })
   </script>
