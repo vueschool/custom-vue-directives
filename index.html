@@ -10,7 +10,8 @@
   </div>
 
   <script type="text/javascript">
-    Vue.directive('switching-color', function (el, binding) {
+    Vue.directive('switching-color', {
+      bind (el, binding) {
       const modifiers = binding.modifiers
       if (modifiers.underline) {
         el.style.textDecoration = 'underline'
@@ -36,6 +37,7 @@
           i = 0
         }
       }, speed)
+    }
     })
 
     new Vue({
